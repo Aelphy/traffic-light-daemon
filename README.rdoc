@@ -1,4 +1,4 @@
-= Traffic Light
+= Traffic Light Daemon
 
 Билд Светофор
 

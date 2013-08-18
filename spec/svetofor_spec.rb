@@ -2,8 +2,6 @@ require "#{File.dirname(__FILE__)}/spec_helper"
 require "./lib/traffic_light"
 
 describe TrafficLight do
-  before { TrafficLight::GPIOConfiguration.stub(:access_class).and_return GPIOMock }
-
   describe TrafficLight::GPIOConfiguration do
     describe '.pin_conf' do
       it { TrafficLight::GPIOConfiguration.pin_conf(1).should eql(pin: 1, direction: :out) }
@@ -11,6 +9,8 @@ describe TrafficLight do
   end
 
   describe TrafficLight::Lights do
+    before { TrafficLight::GPIOConfiguration.stub(:access_class).and_return GPIOMock }
+
     describe '#all' do
       before do
         TrafficLight::Lights.any_instance.stub(:red).and_return 1

@@ -1,8 +1,7 @@
 #coding: utf-8
 require 'ox'
-#require 'pi_piper'
 require 'open-uri'
-require "#{File.dirname(__FILE__)}/gpio_mock"
+require ENV['DEVICE'] == 'Raspberry' ?  'pi_piper' : "#{File.dirname(__FILE__)}/gpio_mock"
 
 class TrafficLight
   class GPIOConfiguration
@@ -11,8 +10,7 @@ class TrafficLight
     end
 
     def self.access_class
-      #PiPiper::Pin
-      GPIOMock
+      ENV['DEVICE'] == 'Raspberry' ? PiPiper::Pin : GPIOMock
     end
   end
 
@@ -61,7 +59,7 @@ class TrafficLight
   end
 
   class Notifier
-    PROJECT_NAME = 'sg-master'
+    PROJECT_NAME = ENV['PROJECT_NAME'] || 'sg-master'
     URL = 'http://ci.dev.apress.ru/XmlStatusReport.aspx'
 
     # Find build for project
