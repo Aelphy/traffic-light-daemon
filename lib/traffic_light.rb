@@ -77,13 +77,14 @@ class TrafficLight
     #
     # Returns Integer
     def notify
-      lights.extinguish
-
       if build.activity == 'Building'
+        lights.extinguish
         lights.yellow.on
       elsif build.lastBuildStatus == 'Failure'
+        lights.extinguish
         lights.red.on
       elsif build.lastBuildStatus == 'Success'
+        lights.extinguish
         lights.green.on
       end
     end
