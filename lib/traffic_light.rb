@@ -43,11 +43,13 @@ class TrafficLight
       [red, yellow, green]
     end
 
-    # Turn off all the lights
+    # Turn off the lights
     #
     # Returns Array
-    def extinguish
-      all.map(&:off)
+    def extinguish(without = nil)
+      lightbulbs = all.select { |lightbulb| lightbulb != without }
+
+      lightbulbs.map(&:off)
     end
 
     # Turn on all the lights
@@ -78,15 +80,27 @@ class TrafficLight
     # Returns Integer
     def notify
       if build.activity == 'Building'
-        lights.extinguish
+        lights.extinguish(lights.yellow)
+        sleep 0.25
         lights.yellow.on
       elsif build.lastBuildStatus == 'Failure'
-        lights.extinguish
+        lights.extinguish(lights.red)
+        sleep 0.25
         lights.red.on
       elsif build.lastBuildStatus == 'Success'
-        lights.extinguish
+        lights.extinguish(lights.green)
+        sleep 0.25
         lights.green.on
       end
+    end
+
+    def alarm
+      lights.extinguish
+      sleep 0.25
+      lights.yellow.on
+      sleep 0.25
+      lights.yellow.off
+      sleep 0.25
     end
 
     private

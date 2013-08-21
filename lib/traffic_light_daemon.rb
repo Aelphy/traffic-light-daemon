@@ -12,9 +12,7 @@ class TrafficLightDaemon
           sleep 5
         end
       rescue
-        notifigher.lights.yellow.on
-        sleep 0.25
-        notifigher.lights.yellow.off
+        notifigher.alarm
       end
     end
   end
