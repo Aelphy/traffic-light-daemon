@@ -20,7 +20,7 @@ class TrafficLightDaemon
   end
 
   def io
-    open('http://traffic-light.railsc.ru')
+    open('http://traffic-light.railsc.ru:4567')
   end
 
   def mode
