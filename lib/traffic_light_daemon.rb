@@ -7,11 +7,11 @@ class TrafficLightDaemon
     loop do
       begin
         case mode
-        when 'Стандартный' then
-          notifigher.notify
-          sleep 5
         when 'Новый Год' then
           notifigher.new_year
+        else
+          notifigher.notify
+          sleep 5
         end
       rescue
         notifigher.alarm
@@ -20,7 +20,7 @@ class TrafficLightDaemon
   end
 
   def io
-    open('http://traffic-light.railsc.ru:4567')
+    open('http://traffic-light.railsc.ru:4567/mode')
   end
 
   def mode
