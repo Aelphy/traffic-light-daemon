@@ -103,6 +103,17 @@ class TrafficLight
       sleep 0.25
     end
 
+    def new_year
+      lights.extinguish
+      sleep 0.25
+      lights.green.on
+      sleep 0.25
+      lights.yellow.on
+      sleep 0.25
+      lights.red.on
+      sleep 0.25
+    end
+
     private
     # Compute IO
     #

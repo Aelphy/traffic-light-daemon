@@ -10,6 +10,8 @@ class TrafficLightDaemon
         when 'Стандартный' then
           notifigher.notify
           sleep 5
+        when 'Новый Год' then
+          notifigher.new_year
         end
       rescue
         notifigher.alarm
