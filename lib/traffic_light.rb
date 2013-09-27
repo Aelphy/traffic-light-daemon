@@ -93,6 +93,9 @@ class TrafficLight
       end
     end
 
+    # Notify about problems
+    #
+    # Returns Integer
     def alarm
       lights.extinguish
       sleep 0.25
@@ -102,6 +105,9 @@ class TrafficLight
       sleep 0.25
     end
 
+    # Notify about hollydays
+    #
+    # Returns Integer
     def new_year
       lights.extinguish
       sleep 0.25
@@ -128,6 +134,9 @@ class TrafficLight
       Ox.parse io.read
     end
 
+    # Compute Project Name
+    #
+    # Returns StringIO
     def project_name
       open('http://traffic-light.railsc.ru:4567/branch')
     end
