@@ -61,14 +61,13 @@ class TrafficLight
   end
 
   class Notifier
-    PROJECT_NAME = ENV['PROJECT_NAME'] || 'sg-master'
     URL = 'http://ci.dev.apress.ru/XmlStatusReport.aspx'
 
     # Find build for project
     #
     # Returns Ox::Element
-    def build(project_name = PROJECT_NAME)
-      nodes.locate('Project').select { |node| node[:name] == project_name }.first
+    def build
+      nodes.locate('Project').select { |node| node[:name] == project_name.read }.first
     end
 
     def lights
@@ -94,6 +93,9 @@ class TrafficLight
       end
     end
 
+    # Notify about problems
+    #
+    # Returns Integer
     def alarm
       lights.extinguish
       sleep 0.25
@@ -103,6 +105,9 @@ class TrafficLight
       sleep 0.25
     end
 
+    # Notify about hollydays
+    #
+    # Returns Integer
     def new_year
       lights.extinguish
       sleep 0.25
@@ -127,6 +132,13 @@ class TrafficLight
     # Returns Ox::Element
     def nodes
       Ox.parse io.read
+    end
+
+    # Compute Project Name
+    #
+    # Returns StringIO
+    def project_name
+      open('http://traffic-light.railsc.ru:4567/branch')
     end
   end
 end
