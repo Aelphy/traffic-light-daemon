@@ -29,14 +29,16 @@ module TrafficLight
       @previous_activity ||= build.activity
 
       if @previous_activity != 'Building' && build.activity == 'Building'
-        @@client.update("Запущен билд ветки #{project_name}")
+        @@client.update("Запущен билд ветки #{project_name.read}")
       elsif @previous_activity == 'Building' && build.activity != 'Building'
         if build.lastBuildStatus == 'Failure'
-          @@client.update("Билд ветки #{project_name} не прошел")
+          @@client.update("Билд ветки #{project_name.read} не прошел")
         elsif build.lastBuildStatus == 'Success'
-          @@client.update("Билд ветки #{project_name} прошел успешно")
+          @@client.update("Билд ветки #{project_name.read} прошел успешно")
         end
       end
+
+      @previous_activity = build.activity
 
       if build.activity == 'Building'
         lights.extinguish(lights.yellow)
