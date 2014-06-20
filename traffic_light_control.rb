@@ -1,3 +1,6 @@
 require 'daemons'
+require './lib/traffic_light'
 
-Daemons.run('/home/aelphy/svetofor/traffic-light-daemon/lib/traffic_light_daemon.rb')
+Daemons.run_proc('TLdaemon') do
+  TrafficLight::Daemon.new.start
+end

@@ -1,10 +1,10 @@
 require "#{File.dirname(__FILE__)}/spec_helper"
-require "./lib/traffic_light"
+require './lib/traffic_light'
 
 describe TrafficLight do
   describe TrafficLight::GPIOConfiguration do
     describe '.pin_conf' do
-      it { TrafficLight::GPIOConfiguration.pin_conf(1).should eql(pin: 1, direction: :out) }
+      it { expect{ TrafficLight::GPIOConfiguration.pin_conf(1).to eql(pin: 1, direction: :out)} }
     end
   end
 
@@ -18,7 +18,7 @@ describe TrafficLight do
         TrafficLight::Lights.any_instance.stub(:green).and_return 3
       end
 
-      it { TrafficLight::Lights.new.all.should eql [1, 2, 3] }
+      it { expect { TrafficLight::Lights.new.all.to eql [1, 2, 3]} }
     end
 
     describe '#extinguish' do
@@ -38,16 +38,16 @@ describe TrafficLight do
 
   describe TrafficLight::Notifier do
     describe '#lights' do
-      it { TrafficLight::Notifier.new.lights.should be_an_instance_of TrafficLight::Lights }
+      it { expect { TrafficLight::Notifier.new.lights.to be_an_instance_of TrafficLight::Lights } }
     end
 
     describe '#build' do
       subject { TrafficLight::Notifier.new }
-      let(:build) { [{name: TrafficLight::Notifier::PROJECT_NAME}] }
+      let(:build) { {name: 'sg-master'} }
 
-      before { subject.stub_chain(:nodes, :locate).and_return build }
+      before { subject.stub_chain(:nodes, :locate, :select, :first).and_return build }
 
-      it { subject.build.should eql build.first }
+      it { expect { subject.build.to eql build } }
     end
 
     describe '#notify' do
@@ -72,6 +72,7 @@ describe TrafficLight do
       before do
         io.stub(:read).and_return io
         TrafficLight::Notifier.any_instance.stub(:io).and_return io
+        TrafficLight::Notifier.any_instance.stub_chain(:project_name, :read).and_return 'sg-master'
         lights.stub(:green).and_return green
         lights.stub(:yellow).and_return yellow
         lights.stub(:red).and_return red
